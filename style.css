@@ -1,0 +1,140 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: arial;
+    font-size: 20px;
+}
+
+#root {
+    display: grid;
+    grid-template-rows: minmax(50px, 70px) 1fr;
+}
+  
+.header {
+    grid-row: 1 / 1;
+    background-color: #99bfff; 
+    display: flex;
+    justify-content: center;
+}
+
+#work-space {
+    grid-row: 2 / 2;
+    display: flex;
+  }
+
+.header-button  {
+    width: 100px;
+    height: auto;
+    color: #fff; 
+    user-select: none; 
+    background: #99bfff; 
+    padding: .7em 1.5em; 
+  } 
+    div.header-button:hover { background: #c4daff; } 
+    div.header-button:active { background: #629cff; } 
+
+    .header-button.active {
+        background: #0952d1; 
+    }
+    
+.calculatorSimple {
+    display: grid;
+    grid-template-columns: 75px 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px 75px 75px 75px;
+    border: solid black 2px;
+    margin-left: 25px;
+    margin-top: 25px;
+    height: 450px;
+    border-radius: 12px;
+    background: whitesmoke;
+}
+ 
+.calculatorEngineering {
+    display: grid;
+    grid-template-columns: 75px 75px 75px 75px 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px 75px 75px;
+    border: solid black 2px;
+    margin-left: 25px;
+    margin-top: 25px;
+    height: 375px;
+    border-radius: 12px;
+    background: whitesmoke;  
+}
+
+.hidden {
+    display: none;
+}
+
+.output {
+    grid-column: 1 / -1;
+    border: 2px solid black;
+    margin: 5px;
+    border-radius: 12px;
+    background: white;
+    font-family: arial;
+    font-size: 23px;
+    text-align: right;
+    text-indent: 50px;
+}
+    
+    .output.invalid {
+        border: 2px solid red;
+      };
+    
+p {
+    margin: 25px;
+}
+    
+.num-button {
+    border: black solid 1px;
+    margin: 5px;
+    color: black; 
+    user-select: none; 
+    background: #d6e5ff; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-family: arial;
+    font-size: 23px;
+}
+    div.num-button:hover { background: #c4daff; } 
+    div.num-button:active { background: #629cff; } 
+    
+#equally {
+    background: #276CEC;      
+}
+    div#equally:hover { background: #5589EC; } 
+    div#equally:active { background: #0446BE }
+          
+#C {
+    background: red;
+}
+    div#C:hover { background: hsl(0, 74%, 59%); } 
+    div#C:active { background: hsl(0, 73%, 46%); }
+    
+#back {
+    background: yellow;
+}
+    div#back:hover { background: rgb(247, 247, 108); } 
+    div#back:active { background: rgb(185, 185, 0); }
+          
+          
+.input {
+    width: 150px;
+    height: 35px;
+    outline: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+    .input:focus {
+    color: black;
+    border: 2px solid #21FDA9;
+}
+    
+.text {
+    margin-top: 15px;
+    margin-left: 15px;
+    color: #887B72;
+    padding: .25em;
+}

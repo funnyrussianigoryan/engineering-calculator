@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Calculator</title>
+  </head>
+    <body>
+        <div id="root">
+            <div class='header'>
+                <div class='header-button' id='simple'>Simple</div>
+                <div class='header-button' id='engineering'>Engineering</div>
+                <label class='text'>
+                    Decimal place:
+                    <select type="text" id='decimalPlace'>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                    </select>
+                  </label> 
+            </div>
+            <div id='work-space'>
+                <div class='calculatorSimple hidden'>
+                    <div class='output'><p></p></div> 
+                    <div class='num-button number'>1</div>
+                    <div class='num-button number'>2</div>
+                    <div class='num-button number'>3</div>
+                    <div class='num-button minusPlus'>+</div>
+                    <div class='num-button number'>4</div>
+                    <div class='num-button number'>5</div>
+                    <div class='num-button number'>6</div>
+                    <div class='num-button minusPlus'>-</div>
+                    <div class='num-button number'>7</div>
+                    <div class='num-button number'>8</div>
+                    <div class='num-button number'>9</div>
+                    <div class='num-button multiply'>*</div>
+                    <div class='num-button openBracket'>(</div>
+                    <div class='num-button zero'>0</div>
+                    <div class='num-button closeBracket'>)</div>
+                    <div class='num-button multiply'>/</div>
+                    <div class='num-button dote'>.</div>
+                    <div class='num-button equally' id='equally'>=</div>
+                    <div class='num-button C' id='C'>C</div>
+                    <div class='num-button back' id='back'>back</div>
+                </div>
+                <div class='calculatorEngineering'>
+                    <div class='output'><p></p></div>     
+                    <div class='num-button number'>1</div>
+                    <div class='num-button number'>2</div>
+                    <div class='num-button number'>3</div>
+                    <div class='num-button pow2'>x^2</div>
+                    <div class='num-button minusPlus'>+</div>
+                    <div class='num-button sin'>Sin</div>
+                    <div class='num-button equally' id='equally'>=</div>
+                    <div class='num-button number'>4</div>
+                    <div class='num-button number'>5</div>
+                    <div class='num-button number'>6</div>
+                    <div class='num-button pow'>x^y</div>
+                    <div class='num-button minusPlus'>-</div>
+                    <div class='num-button cos'>Cos</div>
+                    <div class='num-button back' id='back'>Back</div>
+                    <div class='num-button number'>7</div>
+                    <div class='num-button number'>8</div>
+                    <div class='num-button number'>9</div>
+                    <div class='num-button sqrt'>√</div>
+                    <div class='num-button multiply'>*</div>
+                    <div class='num-button tan'>Tan</div>
+                    <div class='num-button C' id='C'>C</div>
+                    <div class='num-button openBracket'>(</div>
+                    <div class='num-button zero'>0</div>
+                    <div class='num-button closeBracket'>)</div>
+                    <div class='num-button dote'>.</div>
+                    <div class='num-button multiply'>/</div>
+                    <div class='num-button constPI'>π</div>
+                    <div class='num-button constE'>e</div> 
+                </div> 
+            </div>
+        </div>
+        <script src='index.js'></script>
+    </body>
+</html>
