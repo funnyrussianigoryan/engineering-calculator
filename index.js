@@ -8,92 +8,114 @@ const calculator = () => {
         decimalPlace: 2,
       };
 
-    const changeState = (input, output, newType) => {
+      const changeState = (input, output, newType) => {
         const {typesLog} = state;
         const newTypesLog = typesLog.slice()
         newTypesLog.push(...newType);
-        state.output = state.output + output;
-        state.input = state.input + input;
+        state.output += output;
+        state.input += input;
         state.typesLog = newTypesLog;
         render();
     };
 
-    const handleClickNum = (e) => {
+    const clickCalculatorButton = (e) => {
+        const buttonType = e.target.dataset.type;
         const {typesLog} = state;
         const currentType = typesLog[typesLog.length - 1];
-        if (currentType === 'closeBracket') return
-        changeState(e.target.innerText, e.target.innerText, ['number'])
-    };
-
-    const handleClickPi = () => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['plus', 'multiply', 'openBracket', 'begin'];
-        if (!types.includes(currentType)) return
-        changeState('Math.PI', 'π', ['constPI'])
-    };
-
-    const handleClickE = () => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['plus', 'multiply', 'openBracket', 'begin'];
-        if (!types.includes(currentType)) return
-        changeState('Math.E', 'e', ['constE'])
-    };
-
-    const handleClickPlus = e => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['constPI', 'constE', 'openBracket', 'closeBracket', 'zero', 'begin', 'number'];
-        if (!types.includes(currentType)) return
-        changeState(e.target.innerText, e.target.innerText, ['plus'])    
-    };
-
-    const handleClickMultiply = e => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
-        if (!types.includes(currentType)) return
-        changeState(e.target.innerText, e.target.innerText, ['multiply'])
-    };
-
-    const handleClickZero = () => {
-        const {typesLog} = state;
-        const types = ['plus', 'multiply', 'begin', 'openBracket'];
-        const currentType = typesLog[typesLog.length - 1];
-        if (currentType === 'closeBracket' || currentType === 'zero' && types.includes(typesLog[typesLog.length - 2])) return
-        changeState('0', '0', ['zero'])
-    };
-
-    const handleClickDote = () => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        if (currentType !== 'number' && currentType !== 'zero') return
-        const types = ['plus', 'multiply', 'begin'];
-        for (let i = typesLog.length - 1; i >= 0; i -= 1) {
-          if (typesLog[i] === 'dote') return
-          if (types.includes(typesLog[i])) break
+        switch (buttonType) {
+            case 'multiply':
+                const multiplyTypes = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
+                if (!multiplyTypes.includes(currentType)) return
+                changeState(e.target.innerText, e.target.innerText, ['multiply']);
+                break
+            case 'number':
+                if (currentType === 'closeBracket') return
+                changeState(e.target.innerText, e.target.innerText, ['number']);
+                break
+            case 'constPI':
+                const constPITypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!constPITypes.includes(currentType)) return
+                changeState('Math.PI', 'π', ['constPI']);
+                break
+            case 'constE':
+                const constETypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!constETypes.includes(currentType)) return
+                changeState('Math.E', 'e', ['constE']);
+                break
+            case 'minusPlus':
+                const minusPlusTypes = ['constPI', 'constE', 'openBracket', 'closeBracket', 'zero', 'begin', 'number'];
+                if (!minusPlusTypes.includes(currentType)) return
+                changeState(e.target.innerText, e.target.innerText, ['plus']);
+                break
+            case 'zero':
+                const zeroTypes = ['plus', 'multiply', 'begin', 'openBracket'];
+                if (currentType === 'closeBracket' || currentType === 'zero' && zeroTypes.includes(typesLog[typesLog.length - 2])) return
+                changeState('0', '0', ['zero']);
+                break
+            case 'dote':
+                if (currentType !== 'number' && currentType !== 'zero') return
+                const doteTypes = ['plus', 'multiply', 'begin'];
+                for (let i = typesLog.length - 1; i >= 0; i -= 1) {
+                    if (typesLog[i] === 'dote') return
+                  if (doteTypes.includes(typesLog[i])) break
+                };
+                changeState('.', '.', ['dote']);
+                break
+            case 'openBracket': 
+                const openBracketTypes = ['plus', 'multiply', 'openBracket', 'function', 'begin', 'pow', 'sqrt'];
+                if (!openBracketTypes.includes(currentType)) return
+                changeState('(', '(', ['openBracket']);
+                break
+            case 'closeBracket':
+                const closeBracketTypes = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
+                if (!closeBracketTypes.includes(currentType)) return
+                changeState(')', ')', ['closeBracket']);
+                break
+            case 'pow':
+                const powTypes = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
+                if (!powTypes.includes(currentType)) return
+                changeState('**(', '^(', ['pow', 'openBracket']);
+                break
+            case 'sin':
+                const sinTypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!sinTypes.includes(currentType)) return
+                changeState('Math.sin(', 'sin(', ['function', 'openBracket']);
+                break
+            case 'cos':
+                const cosTypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!cosTypes.includes(currentType)) return
+                changeState('Math.cos(', 'cos(', ['function', 'openBracket']);
+                break
+            case 'tan': 
+                const tanTypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!tanTypes.includes(currentType)) return
+                changeState('Math.tan(', 'tan(', ['function', 'openBracket']);
+                break
+            case 'sqrt':
+                const sqrtTypes = ['plus', 'multiply', 'openBracket', 'begin'];
+                if (!sqrtTypes.includes(currentType)) return
+                changeState('Math.sqrt(', '√(', ['sqrt', 'openBracket']);
+                break
+            case 'pow2':
+                const pow2Types = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
+                if (!pow2Types.includes(currentType)) return
+                changeState('**(2)', '^(2)', ['pow', 'openBracket', 'number', 'closeBracket']);
+                break
+            case 'back':
+                clickBack();
+                break
+            case 'equally':
+                clickEqually();
+                break
+            case 'C':
+                clickC();
+                break    
+            default:
+                break
         };
-        changeState('.', '.', ['dote'])
     };
 
-    const handleClickOpenBracket = () => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['plus', 'multiply', 'openBracket', 'function', 'begin', 'pow', 'sqrt'];
-        if (!types.includes(currentType)) return
-        changeState('(', '(', ['openBracket'])
-    }; 
-    
-    const handleClickCloseBracket = () => {
-        const {typesLog} = state;
-        const currentType = typesLog[typesLog.length - 1];
-        const types = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
-        if (!types.includes(currentType)) return
-        changeState(')', ')', ['closeBracket'])
-    }; 
-
-    const handleClickBack = () => {
+    const clickBack = () => {
         const {typesLog, input, output} = state;
         const currentType = typesLog[typesLog.length - 1];
         const newState = {};
@@ -132,7 +154,7 @@ const calculator = () => {
           render()
     };
 
-    const handleClickEqually = () => {
+    const clickEqually = () => {
         const {input} = state;
         if (input.length === 0) return; 
         try {
@@ -146,141 +168,53 @@ const calculator = () => {
         render();
     };
 
-    const handleClickC = () => {
+    const clickC = () => {
         state.output = '';
         state.input = '';
         state.typesLog = ['begin'];
         render()
     };
 
-    const clickSimple = () => {
-        state.calculatorType = 'simple';
-        render()
+    const render = () => {
+        const {calculatorType} = state;
+        const engineering = document.querySelector('.calculatorEngineering');
+        const simple = document.querySelector('.calculatorSimple');
+        if (calculatorType === 'engineering') {
+            simple.classList.add('hidden');
+            engineering.classList.remove('hidden');
+        }
+        else {
+            simple.classList.remove('hidden');
+            engineering.classList.add('hidden');
+        }
+        const outputs = document.querySelectorAll('.output');
+        [...outputs].forEach(output => {
+          output.innerText = state.output;
+        })
     };
 
-    const clickEngineering = () => {
+    const buttons = document.getElementsByClassName('num-button');
+    [...buttons].forEach(button => {
+        button.addEventListener('click', clickCalculatorButton)
+    });
+
+    const engineering = document.querySelector('.calculatorEngineering');
+    engineering.addEventListener('click', () => {
         state.calculatorType = 'engineering';
-        render();
-    }
+        render();    
+    });
 
-    const handleClickPow = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
-      if (!types.includes(currentType)) return
-      changeState('**(', '^(', ['pow', 'openBracket'])    
-    };
-  
-    const handleClickSin = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['plus', 'multiply', 'openBracket', 'begin'];
-      if (!types.includes(currentType)) return
-      changeState('Math.sin(', 'sin(', ['function', 'openBracket'])      
-    };
-  
-    const handleClickCos = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['plus', 'multiply', 'openBracket', 'begin'];
-      if (!types.includes(currentType)) return
-      changeState('Math.cos(', 'cos(', ['function', 'openBracket'])      
-    };
-  
-    const handleClickTan = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['plus', 'multiply', 'openBracket', 'begin'];
-      if (!types.includes(currentType)) return
-      changeState('Math.tan(', 'tan(', ['function', 'openBracket'])      
-    };
-  
-    const handleClickSqrt = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['plus', 'multiply', 'openBracket', 'begin'];
-      if (!types.includes(currentType)) return
-      changeState('Math.sqrt(', '√(', ['sqrt', 'openBracket'])     
-    };
-
-    const handleClickPow2 = () => {
-      const {typesLog} = state;
-      const currentType = typesLog[typesLog.length - 1];
-      const types = ['constE', 'constPI', 'closeBracket', 'zero', 'number'];
-      if (!types.includes(currentType)) return
-      changeState('**(2)', '^(2)', ['pow', 'openBracket', 'number', 'closeBracket'])
-    };
-
-    const changeDecimalPlace = (e) => {
-      const decimalPlace = e.target.value;
-      state.decimalPlace = decimalPlace;
-      console.log(decimalPlace);
-      render()
-    }
+    const simple = document.querySelector('.calculatorSimple');
+    simple.addEventListener('click', () => {
+        state.calculatorType = 'simple';
+        render()    
+    });
 
     const decimalPlace = document.querySelector('#decimalPlace');
-    decimalPlace.addEventListener('change', changeDecimalPlace);
-
-
-    //adding of events
-    const addEvent = (arr) => {
-      for (let i = 0; i < arr.length; i += 1) {
-        const selector = arr[i][0];
-        const func = arr[i][1];
-        const buttons = document.querySelectorAll(selector);
-        [...buttons].forEach(button => {
-          button.addEventListener('click', func)
-        })
-      }
-    }
-
-    //array of selectors and functions
-    const selectorsAndFunctions = [
-      ['.minusPlus', handleClickPlus],
-      ['.pow', handleClickPow],
-      ['.constPI', handleClickPi],
-      ['.constE', handleClickE],
-      ['.C', handleClickC],
-      ['.equally', handleClickEqually],
-      ['.openBracket', handleClickOpenBracket],
-      ['.closeBracket', handleClickCloseBracket],
-      ['.number', handleClickNum],
-      ['.multiply', handleClickMultiply],
-      ['.zero', handleClickZero],
-      ['.dote', handleClickDote],
-      ['.back', handleClickBack],
-      ['.sin', handleClickSin],
-      ['.tan', handleClickTan],
-      ['.cos', handleClickCos],
-      ['.sqrt', handleClickSqrt],
-      ['.pow2', handleClickPow2]
-    ];
-
-    addEvent(selectorsAndFunctions);
-
-    const simple = document.querySelector('#simple');
-    simple.addEventListener('click', clickSimple);
-
-    const engineering = document.querySelector('#engineering');
-    engineering.addEventListener('click', clickEngineering);
-
-    const render = () => {
-      const {calculatorType} = state;
-      const engineering = document.querySelector('.calculatorEngineering');
-      const simple = document.querySelector('.calculatorSimple');
-      if (calculatorType === 'engineering') {
-          simple.classList.add('hidden');
-          engineering.classList.remove('hidden');
-      }
-      else {
-          simple.classList.remove('hidden');
-          engineering.classList.add('hidden');
-      }
-      const outputs = document.querySelectorAll('.output');
-      [...outputs].forEach(output => {
-        output.innerText = state.output;
-      })
-  };
+    decimalPlace.addEventListener('change', (e) => {
+        state.decimalPlace = e.target.value;
+    });
 }
 
-  calculator();
+calculator();
+
